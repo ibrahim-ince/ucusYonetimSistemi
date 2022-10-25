@@ -1,0 +1,255 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\begin{document}
+
+\title{Kocaeli Üniversitesi Bilgisayar Mühendisliği Bölümü Programlama Laboratuvarı I - Proje III\\}
+
+\author{\IEEEauthorblockN{İbrahim İnce}
+\IEEEauthorblockA{\textit{Mühendislik Fakültesi} \\
+\textit{Bilgisayar Mühendisliği Bölümü}\\
+2. Öğretim \\
+200202102}}
+\maketitle
+
+\section{Özet}
+Öncelikli kuyruk veri yapılarının kullanıldığı bu projede, iniş ve kalkış pistleri olmak üzere iki adet uçak pisti olan bir havalimanının uçuş yönetim sistemi hazırlanmıştır.\\
+
+Pistlerdeki uygun boş saatlere göre iniş izni isteyen uçakların izinlerinin 
+onaylanması veya reddedilmesi, iniş izni talep eden uçakların öncelikleri göz 
+önünde bulundurularak yapılmıştır.
+
+\section{Giriş}
+Proje C programlama dili ve Code::Blocks IDE'si kullanılarak hazırlanmıştır. \\
+
+Havalimanına iniş yapacak uçakların iniş pistini kullanım
+sırasını içeren öncelikli kuyruk "inis\_pisti\_kullanim\_sirasi" öncelikli 
+kuyruğudur. Uçak öncelik ve iniş saati bilgisi dikkate alınarak
+hazırlanmıştır.\\
+
+Havalimanından kalkış yapacak uçakların kalkış pistini
+kullanım sırasını içeren öncelikli kuyruk "kalkis\_pisti\_kullanim\_sirasi" 
+öncelikli kuyruğudur. Uçak öncelik ve kalkış saati bilgisine göre
+hazırlanmıştır.\\
+
+\section{Yöntem}
+İlk olarak bağlı liste veri yapısı kullanılarak oluşturulacak öncelikli kuyruk 
+yapısı için gerekli iki adet "struct" yapısı oluşturulmuştur. Bu "struct" 
+yapıları "inis\_pisti\_kullanim\_sirası" ve "kalkis\_pisti\_kullanim\_sirasi" 
+şeklinde isimlendirilmiştir. "inis\_pisti\_kullanim\_sirası" isimli struct 
+yapısı içerisinde:\\
+
+\begin{itemize}
+    \item "int" tipinde; uçakların öncelik ID'sini tutan "o\_id" değişkeni,
+    \item Uçakların ID'sini tutan "u\_id" değişkeni,
+    \item Uçakların iniş saatini tutan "i\_sa" değişkeni,
+    \item Uçakların gecikme sürelerini tutan "gecikme" değişkeni,
+    \item "struct" tipinde bir sonraki düğümü gösterecek "*sD" işaretçisi 
+    tanımlanmıştır.\\
+\end{itemize}
+
+"kalkis\_pisti\_kullanim\_sirasi" isimli struct yapısında ise bu
+değişkenlere ek olarak "int" tipinde talep edilen iniş saatini tutan "t\_i\_sa" 
+değişkeni ve kalkış saatini tutan "k\_sa" değişkeni tanımlanmıştır.\\
+
+\subsection{Öncelikli Kuyruk Yapısı İçin Gerekli Fonksiyonların Oluşturulması}
+Bağlı listeler kullanılarak oluşturulacak olan öncelikli kuyruk yapısı için 
+gerekli fonksiyonlar hazırlanmıştır. Bu fonksiyonlar:\\
+
+\begin{itemize}
+    \item İstenilen verileri tutan düğümü kuyruğun sonuna ekleyen 4 parametreli 
+    "sonaEkle" "void" fonksiyonu,
+    \item İstenilen verileri tutan düğümü kuyruğun başına ekleyen 4 parametreli 
+    "basaEkle" "void" fonksiyonu,
+    \item İstenilen verileri tutan düğümü kuyruğun istenilen yerine ekleyen 5 
+    parametreli "arayaEkle" "void" fonksiyonu,
+    \item Kuyruğun başındaki düğümü silen "bastanSil" "void" fonksiyonu,
+    \item Kuyruğun sonundaki düğümü silen "sondanSil" "void" fonksiyonu,
+    \item İstenilen bir sıradaki düğümü silen "aradanSil" "void" fonksiyonu,
+    \item Kuyruğun boş veya dolu olduğunu belirten "bosMu" "int" fonksiyonu,
+    \item Kuyruktaki düğüm değerlerini ekrana yazdıran "yazdir" "void" 
+    fonksiyonudur.\\
+\end{itemize}
+
+Bu fonksiyonlara ek olarak "kalkis\_pisti\_kullanim\_sirasi" öncelikli kuyruğu 
+için gerekli olan fonksiyonlar da aynı ismin başına "k\_" eki eklenerek 
+oluşturulmuştur.\\
+
+\subsection{"input.txt" Dosyasından Verilerin Okunması}
+"fopen()" fonksiyonu ile okuma modunda açılan "input.txt" dosyasından "fscanf()"
+fonksiyonu ile okuma yapılcaktır. "input.txt" dosyasından okunulması istenilen 
+sayısal verilerden önce bulunan "oncelik\_id", "ucak\_id", 
+"talep\_edilen\_inis\_saati" kelime toplulukları üç defa art arda "fscanf()" 
+fonksiyonu kullanılarak atlanmıştır. Ardından "while()" döngüsü içerisinde 
+"fscanf()" fonksiyonu ile sıradaki üç sayı okunup, "main()" fonksiyonu 
+içerisinde oluşturulan "int" tipindeki "o\_id", "u\_id" ve "i\_sa" 
+değişkenlerine atanmıştır.\\
+
+Havalimanı uçuş yönetim sistemi için gerekli işlemler
+yapıldıktan sonra ekranda görüntülenebilmesi için mevcut "while()" döngüsü 
+sonuna "system("pause");" ifadesi, bir sonraki veriler okunmadan önce ekrandaki 
+yazıların temizlenmesi için de "system("cls");" ifadesi kullanılmıştır.\\
+
+\subsection{İlk Uçak Verisinin Okunması}
+İlk veri okunmadan önce "inis\_pisti\_kullanim\_sirasi" öncelikli kuyruğunda 
+gerekli sıralama işlemlerinin yapılabilmesi için tüm değerleri "-100" ve "100" 
+olan iki adet düğüm "sonaEkle()" fonksiyonu ile art arda öncelikli kuyruğa 
+eklenmiştir.  Öncelikli kuyrukta bulunabilecek maksimum düğüm sayısı 26 adettir. 24 
+adet uçak verisi ve kontrol amaçlı eklenen 2 adet düğüm dışında ekleme 
+yapılamaz. \\
+
+"input.txt" dosyasından ilk uçak verisi okunduktan sonra "bosMu()" 
+fonksiyonu ile "inis\_pisti\_kullanim\_sirasi" öncelikli kuyruğunda önceden 
+eklenmiş iki adet düğüm dışında başka düğüm olmadığı teyit edilir ve okunan 
+veriler "arayaEkle()" fonksiyonu ile halihazırda bulunan iki düğüm arasına 
+eklenir.\\
+
+\subsection{Okunan Uçak Verilerinin Öncelikli Kuyrukta Uygun Yerlere Eklenmesi}
+"input.txt" dosyasından ilk uçak verisi okunup öncelikli kuyruğa eklendikten 
+sonra sıradaki uçak verisi dosyadan okunur. Öncelikli kuyruğun azami 
+kapasitesi olan 26 adet düğüme henüz ulaşılmadığı kontrol edildikten sonra 
+okunan uçak verisinin "i\_sa" değişkeninde tutulan "talep\_edilen\_inis\_saati" 
+değerinin kuyrukta bulunan düğümlerdeki verilerle çakışıp çakışmadığı kontrol 
+edilir. Eğer çakışma yoksa "arayaEkle()" fonksiyonu ile yeni uçak verisi 
+öncelikli kuyruktaki uygun yere eklenir.\\
+
+Eğer çakışma var ise uçak yeni kontrollere maruz bırakılır. Oluşabilecek üç adet 
+durum vardır. Bu durumlar; yeni eklenecek uçağın, kuyruktaki iniş saati çakışan 
+uçaktan daha öncelikli olması (ilk durum olsun), kuyruktaki iniş saati çakışan 
+uçağın yeni uçaktan daha öncelikli olması (ikinci durum olsun) ve her iki uçağın
+da eşit önceliğe sahip olmasıdır (üçüncü durum olsun). Her durum için farklı 
+işlemler yapılır.\\
+
+\begin{figure}[htbp]
+\includegraphics[width=9cm, height=22cm]{akissema1.png}
+\caption{İniş İzni Kontrolü Akış Şeması}
+\end{figure}
+
+İlk durumda kuyruktaki mevcut uçağın azami gecikme süresi olan
+3 saat ertelenip ertelenmediği kontrol edilir. Eğer azami gecikme süresine 
+ulaşmadıysa yeni uçağın indirilmesi ve eski uçağın ertelenmesi için "yui()" 
+fonksiyonu çağırılır. Eğer eski uçak azami gecikme süresine ulaştıysa yeni 
+uçağın ertelenmesi için "yue()" fonksiyonu çağırılır. İkinci durumda ise yeni 
+uçağın ertelenmesi için "yue()" fonksiyonu çağırılır. Üçüncü durumda ise iniş 
+saati çakışan uçakların önceliği uçakların ID'sine göre karar verilir. ID sayısı
+düşük olan uçak daha önceliklidir. İlk iki durumdaki gibi gerekli kontroller 
+yapılır ve gerekli fonksiyonlar çağırılır.\\
+
+\subsection{"yue()" Fonksiyonu}
+Yeni eklenecek uçakların ertelenmesi için oluşturulan bu fonksiyonda eklenecek 
+uçak verisi en fazla 3 kere tekrar edebilecek bir döngüye girer. Her tekrarda 
+kuyruktaki uçağın verisiyle yeni uçağın verileri karşılaştırılır. Karşılaştırma 
+yapılırken öncelikle kuyruktaki mevcut uçağın azami gecikme süresine ulaşıp 
+ulaşmadığı kontrol edilir. Eğer uygun bir durum oluşmazsa yeni uçağa iniş izni 
+verilemez ve Sabiha Gökçen Havalimanı'na yönlendirilir.\\
+
+Uygun bir durum oluştuğunda ise "arayaEkle()" fonksiyonu ile yeni uçak gecikme ve 
+yeni iniş saati bilgileriyle beraber kuyruktaki yerine eklenir ve eski uçağın 
+bilgileri oluşturulan geçici değişkenlere atandıktan sonra ertelenebilmesi için 
+"ee()" fonksiyonu çağırılır.\\
+
+\begin{figure}[htbp]
+\includegraphics[width=8cm, height=17cm]{akissema2.png}
+\caption{Yeni Uçağın Ertelenmesi Akış Şeması}
+\end{figure}
+
+\subsection{"yui()" Fonksiyonu}
+Yeni uçağın gecikmesiz bir şekilde kuyruğa eklenebilmesi için oluşturulan bu 
+fonksiyonda yeni uçak "arayaEkle()" fonksiyonu ile kuyruğa eklenir. Kuyrukta 
+bulunan mevcut uçağın bilgileri oluşturulan geçici değişkenlere atandıktan sonra
+"aradanSil()" fonksiyonu ile kuyruktan silinir ve ertelenmesi için "ee()" 
+fonksiyonu çağırılır.\\
+
+\subsection{"ee()" Fonksiyonu}
+Halihazırda kuyrukta bulunan uçakların ertelenebilmesi için oluşturulan bu 
+fonksiyonda öncelikle uçağın gecikme değeri bir arttırılır. Yeni gecikme değeri 
+3'e ulaştıysa yeni iniş saatinin olduğu saatte pistin dolu olup olmadığı kontrol
+edilir. Eğer boşsa eski uçağın iniş bilgileri yeni gecikme ve iniş saati 
+bilgileriyle "arayaEkle()" fonksiyonu ile kuyruğa tekrar eklenir. Eğer doluysa 
+da kuyruktaki iniş saati çakışan uçağın azami gecikme süresine ulaşıp ulaşmadığı
+kontrol edilir. Ulaşmadıysa eski uçak, diğer eski uçağın yerine geçer ve diğer 
+eski uçağın ertelenmesi için "ee()" fonksiyonu tekrardan çağırılır. Eğer uçak 
+azami gecikme süresine ulaştıysa ertelenmek istenen eski uçağın izni iptal 
+edilir.\\
+
+Mevcutta bulunan uçak ertelenirken gecikme değeri arttırıldıktan sonra 3'e 
+ulaşmamışsa uçak bir döngüye girer. Bu döngüde kuyrukta uygun yer bulma ve 
+erteleme işlemleri yapılır. Uçak boş saat bulabilmişse kuyruktaki uygun boşluğa 
+eklenir. Eğer kuyruktaki başka bir uçağın yerini alırsa, kuyruktaki uçağın da 
+ertelenmesi için "ee()" fonksiyonu tekrar çağırılır.\\
+
+\subsection{Kuyruk Kapasitesinin Dolması Durumu}
+Yeni bir uçak eklenirken kuyruk kapasitesi dolmuşsa, kuyrukta "Önceliği yeni 
+uçaktan düşük ve iniş saati yeni uçağın iniş saatine eşit veya daha geç saatte 
+olan uçak var mı?" diye kontrol edilir. Eğer varsa yeni uçak eski uçağın yerini 
+alır ve eski uçağın iniş izni iptal edilir. Eğer yoksa yeni uçağa iniş izni 
+verilemez ve Sabiha Gökçen Havalimanı'na yönlendirilir.\\
+
+\subsection{"guncel()" Fonksiyonu}
+"input.txt" dosyasından ilk uçak bilgileri okunduktan sonra her bir okuma öncesi
+ve tüm okumalar bittikten sonra "guncel()" fonksiyonu çağırılır. Bu fonksiyonda 
+"kalkis\_pisti\_kullanim\_sirasi" kuyuruğundaki tüm elemanlar silinir. Ardından 
+"inis\_pisti\_kullanim\_sirasi" kuyruğundaki ilk ve son düğümler hariç tüm 
+düğümler "kalkis\_pisti\_kullanim\_sirasi" öncelikli kuyruğuna da eklenir.\\
+
+"output.txt" dosyası yazma modunda açılır. Bu dosyanın ilk satırına "oncelik\_id
+ucak\_id talep\_edilen\_inis\_saati inis\_saati gecikme\_suresi kalkis\_saati" 
+kelime grubu yazdırılır. Sonrasında "kalkis\_pisti\_kullanim\_sirasi" öncelikli 
+kuyruğundaki düğümlerde saklanan uçak verileri "output.txt" dosyasına 
+yazdırılır ve dosya kapatılır. "k\_yazdir()" fonksiyonu da çağırılarak 
+"kalkis\_pisti\_kullanim\_sirasi" öncelikli kuyruğundaki veriler ekrana 
+yazdırılır.\\
+
+\section{Deneysel Sonuçlar}
+Öncelikli kuyrukların temel fonksiyonları geliştirilerek proje amacına uygun 
+olacak şekilde düzenlendi.\\
+
+Yeni uçakların gelmesi ve eski uçakların ertelenmesinden dolayı koşul 
+kontrolleri sonsuz döngüye giriyordu. Koşul kontrollerini fonksiyon içerisinde 
+yapıp, o fonksiyonların içerisinde de aynı fonksiyonu tekrardan çağırarak bu 
+sonsuz döngüden çıkıldı.\\
+
+Azami gecikme süresine ulaşan uçaklar tekrardan ertelenmeye çalışıldığında, 
+eski uçak kuyruktan siliniyor ve uçak verisi kayboluyordu. Azami gecikme 
+süresine ulaşan uçakları en yüksek öncelikli uçak kategorisine uygun 
+kontrollerden geçirerek 3'ten fazla ertelenmemesi sağlandı.\\
+
+~\\
+~\\
+~\\
+~\\
+~\\
+~\\
+~\\
+~\\
+~\\
+~\\
+~\\
+~\\
+~\\
+~\\
+~\\
+~\\
+~\\
+~\\
+~\\
+
+\section{Sonuç}
+Bağlı listeler ve öncelikli kuyruklar kullanılarak "Havalimanı Uçuş Yönetim 
+Sistemi" hazırlandı. Alınan veriler belirli koşullara ve önceliklerine göre 
+sıralandı. Çeşitli fonksiyonlar kullanılarak karışıklığın azaltılması sağlandı.\\
+
+\renewcommand{\refname}{Kaynakça}
+\begin{thebibliography}{00}
+\bibitem{b1} medium.com. (2019). Doğrusal Veri Yapılar 4, Erişim Tarihi: 10.12.2021, https://medium.com/@tolgahan.cepel/dogrusal-veri-yapilari-4-kuyruk-queue-dcbd07e8ba77/
+\bibitem{b2} cdn-acikogretim.istanbul.edu.tr. KUYRUK (QUEUE) VERİ YAPISI, Erişim Tarihi: 10.12.2021, https://cdn-acikogretim.istanbul.edu.tr/auzefcontent/20\_21\_Guz/veri\_yapilari/7/
+\bibitem{b3} yazilimtuneli.com. (2019). C Programlama Yığın ve Kuyruk Örnek, Erişim Tarihi: 10.12.2021, http://www.yazilimtuneli.com/2019/11/c-programlama-ygn-ve-kuyruk-ornek/
+\bibitem{b4} Yazılıma Gönül Ver. (2019). C++ Priority Queue ( Öncelikli Kuyruk ) Sınıfı ve Methodları, Erişim Tarihi: 10.12.2021, https://www.youtube.com/watch?v=IqYh57D67-g/
+\bibitem{b5} diagrams.net. Akış Şeması, Erişim Tarihi: 12.12.2021, https://app.diagrams.net/
+\end{thebibliography}
+\end{document}
